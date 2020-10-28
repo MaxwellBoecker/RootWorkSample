@@ -11,11 +11,33 @@ const {
 } = require('../indexFunctionDefs');
 
 describe('splitDriversAndTrips', () => {
-
-})
+  let input = [];
+  beforeEach(() => {
+    input = [
+      'Driver Dan',
+      'Driver Lauren',
+      'Driver Kumi',
+      'Trip Dan 07:15 07:45 17.3',
+      'Trip Dan 06:12 06:32 21.8',
+      'Trip Lauren 12:01 13:16 42.0',
+    ];
+  });
+  context('Should return an object with two keys, drivers and trips', () => {
+    it('Should be an object', () => {
+      expect(typeof splitDriversAndTrips(input)).to.equal('object');
+    });
+    it('Should have two keys, drivers and trips', () => {
+      expect(Object.keys(splitDriversAndTrips(input)).includes('trips')).to.equal(true);
+      expect(Object.keys(splitDriversAndTrips(input)).includes('drivers')).to.equal(true);
+    });
+    it('Each key should have an array as its value', () => {
+      expect(Array.isArray(splitDriversAndTrips(input).drivers)).to.equal(true);
+      expect(Array.isArray(splitDriversAndTrips(input).trips)).to.equal(true);
+    });
+  });
+});
 
 describe('storeDrivers', () => {
-  let input = [];
   let drivers;
   beforeEach(() => {
     input = [
@@ -111,7 +133,6 @@ describe('pruneTrips', () => {
 });
 
 describe('tripAggregator', () => {
-  let input = [];
   let trips;
   let drivers;
   beforeEach(() => {
@@ -151,10 +172,32 @@ describe('tripAggregator', () => {
   });
 });
 
-
-// trip split function?
-// driver split function?
-// trip pruning function?
-// aggregate trips function?
-// result function?
-// return text file function?
+describe('createResult', () => {
+  let aggregation;
+  beforeEach(() => {
+    input = [
+      'Driver Dan',
+      'Driver Lauren',
+      'Driver Kumi',
+      'Trip Dan 07:15 07:45 17.3',
+      'Trip Dan 06:12 06:32 21.8',
+      'Trip Lauren 12:01 13:16 42.0',
+      'Trip Dan 07:15 07:45 150',
+      'Trip Dan 07:15 19:36 9',
+    ];
+    trips = pruneTrips(tripParser(splitDriversAndTrips(input).trips));
+    drivers = storeDrivers(splitDriversAndTrips(input).drivers);
+    aggregation = tripAggregator(trips, drivers);
+  });
+  context('Should return a string that contains the driving information for every driver', () => {
+    it('Should return a string', () => {
+      expect(typeof createResult(aggregation)).to.equal('string');
+    });
+    it('Should be correctly formatted', () => {
+      expect(createResult(aggregation).includes('Lauren: 42 miles @ 34 mph')).to.equal(true);
+    });
+    it('Should be correctly formatted for 0 miles', () => {
+      expect(createResult(aggregation).includes('Kumi: 0 miles')).to.equal(true);
+    });
+  });
+});
