@@ -6,14 +6,14 @@
    ```
    node index.js < input.txt
    ```
-   Run this command in the terminal to run the tests
+3. Run this command in the terminal to run the tests
    ```
    npm test
    ```
 ### Files and Folders
-* index.js is where the functions are invoked 
-* helpers.js is where the functions are defined and exported from
-* test is the folder which contains the test file test.js
+* **index.js** is where the functions are invoked
+* **helpers.js** is where the functions are defined and exported from
+* **test** is the folder which contains the test file **test.js**
 
 ### My Approach To Solving This Problem:
 
