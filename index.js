@@ -1,7 +1,6 @@
 const fs = require('fs');
 const {
-  getDrivers,
-  getTrips,
+  splitDriversAndTrips,
   storeDrivers,
   tripParser,
   pruneTrips,
@@ -11,9 +10,7 @@ const {
 
 const driversAndTrips = fs.readFileSync(0).toString().split('\n');
 
-const trips = getTrips(driversAndTrips);
-
-const drivers = getDrivers(driversAndTrips);
+const { trips, drivers } = splitDriversAndTrips(driversAndTrips);
 
 const driversObj = storeDrivers(drivers);
 

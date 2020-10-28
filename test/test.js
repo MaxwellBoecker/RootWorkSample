@@ -2,8 +2,7 @@ const assert = require('assert');
 const { expect } = require('chai');
 
 const {
-  getDrivers,
-  getTrips,
+  splitDriversAndTrips,
   storeDrivers,
   tripParser,
   pruneTrips,
@@ -11,106 +10,12 @@ const {
   createResult,
 } = require('../indexFunctionDefs');
 
-describe('getDrivers, getTrips', () => {
-  let input = [];
-  beforeEach(() => {
-    input = [
-      'Driver Dan',
-      'Driver Lauren',
-      'Driver Kumi',
-      'Trip Dan 07:15 07:45 17.3',
-      'Trip Dan 06:12 06:32 21.8',
-      'Trip Lauren 12:01 13:16 42.0',
-      'Trip Dan 07:15 07:45 150',
-      'Trip Dan 07:15 19:36 9',
-    ];
-  });
+describe('splitDriversAndTrips', () => {
 
-  context('getDrivers', () => {
-    it('should return array of strings representing drivers', () => {
-      expect(getDrivers(input).length).to.equal(3);
-    });
-  });
-
-  context('getTrips', () => {
-    it('should return an array of strings representing trips', () => {
-      expect(getTrips(input).length).to.equal(5);
-    });
-  });
-});
+})
 
 describe('storeDrivers', () => {
   let input = [];
-  beforeEach(() => {
-    input = [
-      'Driver Dan',
-      'Driver Lauren',
-      'Driver Kumi',
-      'Trip Dan 07:15 07:45 17.3',
-      'Trip Dan 06:12 06:32 21.8',
-      'Trip Lauren 12:01 13:16 42.0',
-    ];
-  });
-
-  context('It should create an object with all drivers in it', () => {
-    it('Should return an object', () => {
-      expect(typeof storeDrivers(input)).to.equal('object');
-    });
-    it('Should not return an array', () => {
-      expect(Array.isArray(storeDrivers(input))).to.equal(false);
-    });
-    it('Should represent all drivers', () => {
-      expect(Object.keys(storeDrivers(input)).includes('Dan')).to.equal(true);
-      expect(Object.keys(storeDrivers(input)).includes('Kumi')).to.equal(true);
-      expect(Object.keys(storeDrivers(input)).includes('Lauren')).to.equal(true);
-    });
-  });
-});
-
-describe('tripParser', () => {
-  let input = [];
-  beforeEach(() => {
-    input = [
-      'Driver Dan',
-      'Driver Lauren',
-      'Driver Kumi',
-      'Trip Dan 07:15 07:45 17.3',
-      'Trip Dan 06:12 06:32 21.8',
-      'Trip Lauren 12:01 13:16 42.0',
-    ];
-  });
-  context('Should return an array of objects', () => {
-    it('Should return an array', () => {
-      expect(Array.isArray(tripParser(getTrips(input)))).to.equal(true);
-    });
-    it('The returned array should contain only objects', () => {
-      tripParser(getTrips(input)).forEach(trip => {
-        expect(typeof trip === 'object').to.equal(true);
-      });
-    });
-  });
-  context('Returned objects should contain driver, distance and hours keys', () => {
-    it('The objects should contain a driver key', () => {
-      tripParser(getTrips(input)).forEach(trip => {
-        expect(Object.keys(trip).includes('driver')).to.equal(true);
-      });
-    });
-    it('The objects should contain a distance key', () => {
-      tripParser(getTrips(input)).forEach(trip => {
-        expect(Object.keys(trip).includes('distance')).to.equal(true);
-      });
-    });
-    it('The objects should contain an hours key', () => {
-      tripParser(getTrips(input)).forEach(trip => {
-        expect(Object.keys(trip).includes('hours')).to.equal(true);
-      });
-    });
-  })
-});
-
-describe('pruneTrips', () => {
-  let input = [];
-  let trips;
   let drivers;
   beforeEach(() => {
     input = [
@@ -120,14 +25,87 @@ describe('pruneTrips', () => {
       'Trip Dan 07:15 07:45 17.3',
       'Trip Dan 06:12 06:32 21.8',
       'Trip Lauren 12:01 13:16 42.0',
+    ];
+    drivers = splitDriversAndTrips(input).drivers;
+  });
+
+  context('It should create an object with all drivers in it', () => {
+    it('Should return an object', () => {
+      expect(typeof storeDrivers(drivers)).to.equal('object');
+    });
+    it('Should not return an array', () => {
+      expect(Array.isArray(storeDrivers(drivers))).to.equal(false);
+    });
+    it('Should represent all drivers', () => {
+      expect(Object.keys(storeDrivers(drivers)).includes('Dan')).to.equal(true);
+      expect(Object.keys(storeDrivers(drivers)).includes('Kumi')).to.equal(true);
+      expect(Object.keys(storeDrivers(drivers)).includes('Lauren')).to.equal(true);
+    });
+  });
+});
+
+describe('tripParser', () => {
+  let input = [];
+  let trips;
+  beforeEach(() => {
+    input = [
+      'Driver Dan',
+      'Driver Lauren',
+      'Driver Kumi',
+      'Trip Dan 07:15 07:45 17.3',
+      'Trip Dan 06:12 06:32 21.8',
+      'Trip Lauren 12:01 13:16 42.0',
+    ];
+    trips = splitDriversAndTrips(input).trips;
+  });
+  context('Should return an array of objects', () => {
+    it('Should return an array', () => {
+      expect(Array.isArray(tripParser(trips))).to.equal(true);
+    });
+    it('The returned array should contain only objects', () => {
+      tripParser(trips).forEach(trip => {
+        expect(typeof trip === 'object').to.equal(true);
+      });
+    });
+  });
+  context('Returned objects should contain driver, distance and hours keys', () => {
+    it('The objects should contain a driver key', () => {
+      tripParser(trips).forEach(trip => {
+        expect(Object.keys(trip).includes('driver')).to.equal(true);
+      });
+    });
+    it('The objects should contain a distance key', () => {
+      tripParser(trips).forEach(trip => {
+        expect(Object.keys(trip).includes('distance')).to.equal(true);
+      });
+    });
+    it('The objects should contain an hours key', () => {
+      tripParser(trips).forEach(trip => {
+        expect(Object.keys(trip).includes('hours')).to.equal(true);
+      });
+    });
+  })
+});
+
+describe('pruneTrips', () => {
+  let input = [];
+  let trips;
+  beforeEach(() => {
+    input = [
+      'Driver Dan',
+      'Driver Lauren',
+      'Driver Kumi',
+      'Trip Dan 07:15 07:45 17.3',
+      'Trip Dan 06:12 06:32 21.8',
+      'Trip Lauren 12:01 13:16 42.0',
       'Trip Dan 07:15 07:45 150',
       'Trip Dan 07:15 19:36 9',
     ];
-
+    trips = splitDriversAndTrips(input).trips;
   });
   context('It should discard trips with average speed below 5 mph or above 100 mph', () => {
     it('Should remove trips with average speed below 5 mph or above 100 mph', () => {
-      expect(pruneTrips(tripParser(getTrips(input))).length === 3).to.equal(true);
+      expect(pruneTrips(tripParser(trips)).length === 3).to.equal(true);
     })
   })
 });
@@ -147,8 +125,8 @@ describe('tripAggregator', () => {
       'Trip Dan 07:15 07:45 150',
       'Trip Dan 07:15 19:36 9',
     ];
-    trips = pruneTrips(tripParser(getTrips(input)));
-    drivers = storeDrivers(getDrivers(input));
+    trips = pruneTrips(tripParser(splitDriversAndTrips(input).trips));
+    drivers = storeDrivers(splitDriversAndTrips(input).drivers);
   });
   context('It should return an object with keys representing each driver', () => {
     it('Should return an object', () => {

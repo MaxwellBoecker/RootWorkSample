@@ -1,21 +1,26 @@
 /**
- * @name getDrivers
- * @param {array} driversAndTrips An array of strings which represent Driver commands and
- * Trip commands from the input.txt file
- * @returns {array} an array of strings which represent each driver command from the input.txt
+ * @name splitDriversAndTrips
+ * @param {array} driversAndTrips
+ * @returns {object} this object contains an array of strings representing driver commands
+ * and an array of strings representing trip commands from the input file
  */
-const getDrivers = (driversAndTrips) => driversAndTrips.filter((string) => string.includes('Driver') === true);
-
-/**
- * @name getTrips
- * @param {array} driversAndTrips an array of strings which represent Drivers and Trips
- * @returns {array} an array of strings which represent each Trip command from the input.txt
- */
-const getTrips = (driversAndTrips) => driversAndTrips.filter((string) => string.includes('Trip') === true);
+const splitDriversAndTrips = (driversAndTrips) => {
+  const result = {
+    drivers: [], trips: [],
+  };
+  driversAndTrips.forEach((string) => {
+    if (string.includes('Driver')) {
+      result.drivers.push(string);
+    } else if (string.includes('Trip')) {
+      result.trips.push(string);
+    }
+  });
+  return result;
+};
 
 /**
  * @name storeDrivers
- * @param {array} drivers The array of driver strings resulting from getDrivers()
+ * @param {array} drivers The array of driver strings resulting from splitDriversAndTrips
  * @returns {object} an object with driver names as keys and empty objects as values
  */
 const storeDrivers = (drivers) => drivers.reduce((obj, cur) => {
@@ -26,7 +31,8 @@ const storeDrivers = (drivers) => drivers.reduce((obj, cur) => {
 
 /**
  * @name tripParser
- * @param {array} trips This is the array of strings (trips) from the input file
+ * @param {array} trips This is the array of strings representing 'trip' commands
+ * from the input file
  * @return {array} An array of objects (trips turned into objects). Each object contains
  * a driver, distance and  hours key.
  */
@@ -90,8 +96,7 @@ const createResult = (aggregatedTrips) => Object.entries(aggregatedTrips).map((s
 }).sort((a, b) => b.split(' ')[1] - a.split(' ')[1]).join('\n');
 
 module.exports = {
-  getDrivers,
-  getTrips,
+  splitDriversAndTrips,
   storeDrivers,
   tripParser,
   pruneTrips,
