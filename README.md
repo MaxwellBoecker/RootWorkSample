@@ -11,9 +11,9 @@
    npm test
    ```
 ### Files and Folders
-index.js is where the functions are run
-helpers.js is where the functions are defined and exported from
-test is the folder which contains the test file test.js
+* index.js is where the functions are invoked 
+* helpers.js is where the functions are defined and exported from
+* test is the folder which contains the test file test.js
 
 ### My Approach To Solving This Problem:
 
@@ -37,32 +37,33 @@ createResult
 
 ##### Description of Program Flow
 1. The data comes in as a text file, which is then converted to a string with 
-* ```
-* fs.readFileSync()
-* ```
-* I split the string into an array, which gives me an array of strings. 
+```
+fs.readFileSync()
+```
+I split the string into an array, which gives me an array of strings. 
 2. 
-* ```
-* getDrivers, getTrips
-* ```
-* Then I create two new arrays, one which contains only 'Driver' strings and one which contains 'Trip' strings. These two steps are represented by the 
-* ```
-* getDrivers
-* ```
-* and 
-* ```
-* getTrips
-* ``` 
-* functions respectively. I chose arrays because they have great native
-* methods such as map, filter and reduce which make it super easy to iterate over and process data.
-3. 
-* ```
-* storeDrivers
-* ```
-* Then, I create an object called 'driverObj' from the driver array. This stores every 
-* driver in the input file as a key and an empty object as the value. The empty object 
-* will store the values of time and distance after we aggregate them for each driver and 
-* trip. It makes sense to use an object here, because it is easy to look up and add to the data when it is being stored under a name rather than under an index.
+```
+getDrivers, getTrips
+```
+Then I create two new arrays, one which contains only 'Driver' strings and one which contains 'Trip' strings. These two steps are represented by the 
+```
+getDrivers
+```
+and 
+```
+getTrips
+``` 
+functions respectively. I chose arrays because they have great native
+methods such as map, filter and reduce which make it super easy to iterate over and process data.
+3. ``` storeDrivers
+```
+```
+storeDrivers
+```
+Then, I create an object called 'driverObj' from the driver array. This stores every 
+driver in the input file as a key and an empty object as the value. The empty object 
+will store the values of time and distance after we aggregate them for each driver and 
+trip. It makes sense to use an object here, because it is easy to look up and add to the data when it is being stored under a name rather than under an index.
 4. tripParser
 5. pruneTrips
 6. tripAggregator
