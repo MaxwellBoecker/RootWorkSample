@@ -1,7 +1,22 @@
+/**
+ * @name getDrivers
+ * @param {array} driversAndTrips an array of strings which represent Drivers and Trips
+ * @returns {array} an array of strings which represent drivers
+ */
 const getDrivers = (driversAndTrips) => driversAndTrips.filter((string) => string.split(' ').length === 2);
 
+/**
+ * @name getTrips
+ * @param {array} driversAndTrips an array of strings which represent Drivers and Trips
+ * @returns {array} an array of strings which represent Trips
+ */
 const getTrips = (driversAndTrips) => driversAndTrips.filter((string) => string.split(' ').length === 5);
 
+/**
+ * @name storeDrivers
+ * @param {array} drivers the array of drivers resulting from getDrivers()
+ * @returns {object} an object with driver names as keys and empty objects as values
+ */
 const storeDrivers = (drivers) => drivers.reduce((obj, cur) => {
   const driver = cur.split(' ')[1];
   obj[driver] = {};
@@ -9,6 +24,7 @@ const storeDrivers = (drivers) => drivers.reduce((obj, cur) => {
 }, {});
 
 /**
+ * @name tripParser
  * @param {array} trips this is the array of strings (trips) from the input file
  * @return {array} an array of objects (trips turned into objects)
  */

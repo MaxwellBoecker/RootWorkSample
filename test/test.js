@@ -11,7 +11,7 @@ const {
   createResult,
 } = require('../helpers');
 
-describe('should parse input into a drivers array and a trips array', () => {
+describe('getDrivers, getTrips', () => {
   let input = [];
   beforeEach(() => {
     input = [
@@ -35,6 +35,34 @@ describe('should parse input into a drivers array and a trips array', () => {
   context('getTrips', () => {
     it('should return an array of strings representing trips', () => {
       expect(getTrips(input).length).to.equal(5);
+    });
+  });
+});
+
+describe('storeDrivers', () => {
+  let input = [];
+  beforeEach(() => {
+    input = [
+      'Driver Dan',
+      'Driver Lauren',
+      'Driver Kumi',
+      'Trip Dan 07:15 07:45 17.3',
+      'Trip Dan 06:12 06:32 21.8',
+      'Trip Lauren 12:01 13:16 42.0',
+    ];
+  });
+
+  context('it should create an object with all drivers in it', () => {
+    it('should return an object', () => {
+      expect(typeof storeDrivers(input)).to.equal('object');
+    });
+    it('should not return an array', () => {
+      expect(Array.isArray(storeDrivers(input))).to.equal(false);
+    });
+    it('should represent all drivers', () => {
+      expect(Object.keys(storeDrivers(input)).includes('Dan')).to.equal(true);
+      expect(Object.keys(storeDrivers(input)).includes('Kumi')).to.equal(true);
+      expect(Object.keys(storeDrivers(input)).includes('Lauren')).to.equal(true);
     });
   });
 });
