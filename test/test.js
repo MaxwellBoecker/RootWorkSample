@@ -106,7 +106,7 @@ describe('tripParser', () => {
         expect(Object.keys(trip).includes('hours')).to.equal(true);
       });
     });
-  })
+  });
 });
 
 describe('pruneTrips', () => {
@@ -128,8 +128,8 @@ describe('pruneTrips', () => {
   context('It should discard trips with average speed below 5 mph or above 100 mph', () => {
     it('Should remove trips with average speed below 5 mph or above 100 mph', () => {
       expect(pruneTrips(tripParser(trips)).length === 3).to.equal(true);
-    })
-  })
+    });
+  });
 });
 
 describe('tripAggregator', () => {
@@ -161,7 +161,7 @@ describe('tripAggregator', () => {
     it('Should have an object stored at each key', () => {
       Object.values(tripAggregator(trips, drivers)).forEach(value => {
         expect(typeof value === 'object').to.equal(true);
-      })
+      });
     });
     // it('Object stored at each key should contain a distance key', () => {
     //   Object.values(tripAggregator(trips, drivers)).forEach(value => {
