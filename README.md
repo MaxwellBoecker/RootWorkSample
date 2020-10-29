@@ -37,18 +37,27 @@ The final step was turning this data into a string and writing it back into a te
 The program is broken down into 6 functions
 ```
 splitDriversAndTrips
+```
+takes the string representing the input, splits it into an array, and then splits that array into two arrays, one of Driver commands and one of Trip commands  
+```
 storeDrivers
+```
+takes the array of Driver commands and turns it into an object with each driver name as a key and an empty object as the value  
+```
 tripParser
+```
+takes the array of Trip commands and turns each string into an object containing keys for driver name, distance traveled and time in hours  
+```
 pruneTrips
+```
+takes the resulting array from tripParser and removes the trips that have an average speed of greater than 100 mph or less than 5 mph  
+```
 tripAggregator
+```
+combines the array from pruneTrips and the object from storeDrivers, aggregating the total distance and time traveled for each driver.  
 createResult
 ```
-splitDriversAndTrips takes the string representing the input, splits it into an array, and then splits that array into two arrays, one of Driver commands and one of Trip commands  
-storeDrivers takes the array of Driver commands and turns it into an object with each driver name as a key and an empty object as the value  
-tripParser takes the array of Trip commands and turns each string into an object containing keys for driver name, distance traveled and time in hours  
-pruneTrips takes the resulting array from tripParser and removes the trips that have an average speed of greater than 100 mph or less than 5 mph  
-tripAggregator combines the array from pruneTrips and the object from storeDrivers, aggregating the total distance and time traveled for each driver.  
-createResult creates a string out of the object from tripAggregator. This is the string that is finally written to output.txt with fs.writeFileSync  
+creates a string out of the object from tripAggregator. This is the string that is finally written to output.txt with fs.writeFileSync  
 
 #### Approach to Testing
 I wrote unit tests for each function. These tests ensure that the functions return the expected values and data types. I chose this approach because in this program each function relies on the output of an earlier function, so if one of them fails, the whole program will fail. It is necessary to know exactly where and why a particular test has failed. Also, if I need to refactor these functions at all or add in new features to my program, it will be easy to test them and determine whether or not the changes break the program.
