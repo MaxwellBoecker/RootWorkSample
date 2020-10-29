@@ -1,8 +1,8 @@
 /**
  * @name splitDriversAndTrips
  * @param {array} driversAndTrips
- * @returns {object} this object contains an array of strings representing driver commands
- * and an array of strings representing trip commands from the input file
+ * @returns {object} This object contains an array of strings representing Driver commands
+ * and an array of strings representing Trip commands from the input file
  */
 const splitDriversAndTrips = (driversAndTrips) => {
   const result = {
@@ -20,8 +20,8 @@ const splitDriversAndTrips = (driversAndTrips) => {
 
 /**
  * @name storeDrivers
- * @param {array} drivers The array of driver strings resulting from splitDriversAndTrips
- * @returns {object} an object with driver names as keys and empty objects as values
+ * @param {array} drivers The array of Driver strings resulting from splitDriversAndTrips
+ * @returns {object} An object with driver names as keys and empty objects as values
  */
 const storeDrivers = (drivers) => drivers.reduce((obj, cur) => {
   const driver = cur.split(' ')[1];
@@ -31,9 +31,9 @@ const storeDrivers = (drivers) => drivers.reduce((obj, cur) => {
 
 /**
  * @name tripParser
- * @param {array} trips This is the array of strings representing 'trip' commands
+ * @param {array} trips This is the array of strings representing Trip commands
  * from the input file
- * @return {array} An array of objects (trips turned into objects). Each object contains
+ * @return {array} An array of objects. Each object contains
  * a driver, distance and  hours key.
  */
 const tripParser = (trips) => trips.map((tripString) => {
@@ -54,7 +54,7 @@ const tripParser = (trips) => trips.map((tripString) => {
  * @name pruneTrips
  * @param {array} trips This is the array which is returned from tripParser()
  * @return {array} The input array with all trip objects which have an average speed of over 100 mph
- * or below 5 mph removed. Thus the trips have been pruned
+ * or below 5 mph removed.
  */
 const pruneTrips = (trips) => trips.filter((trip) => {
   const mph = trip.distance / trip.hours;
@@ -84,8 +84,8 @@ const tripAggregator = (prunedTrips, driversObj) => prunedTrips.reduce((accumula
 
 /**
  * @name createResult
- * @param {object} aggregatedTrips the object returned from tripAggregator
- * @return {string} a string of all the total results for each driver.
+ * @param {object} aggregatedTrips The object returned from tripAggregator
+ * @return {string} A string of all the total results for each driver.
  */
 const createResult = (aggregatedTrips) => Object.entries(aggregatedTrips).map((stats) => {
   if (stats[1].distance !== undefined) {
