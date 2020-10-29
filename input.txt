@@ -1,8 +1,14 @@
 Driver Dan
 Driver Lauren
 Driver Kumi
+Driver Gary
+Driver Evelyn
+Driver Max
 Trip Dan 07:15 07:45 17.3
 Trip Dan 06:12 06:32 21.8
 Trip Lauren 12:01 13:16 42.0
 Trip Dan 07:15 07:45 150
 Trip Dan 07:15 19:36 9
+Trip Gary 09:56 12:34 76.9
+Trip Evelyn 08:21 10:08 104.9
+Trip Max 09:21 09:22 1
