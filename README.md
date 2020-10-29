@@ -55,6 +55,7 @@ takes the resulting array from tripParser and removes the trips that have an ave
 tripAggregator
 ```
 combines the array from pruneTrips and the object from storeDrivers, aggregating the total distance and time traveled for each driver.  
+```
 createResult
 ```
 creates a string out of the object from tripAggregator. This is the string that is finally written to output.txt with fs.writeFileSync  
