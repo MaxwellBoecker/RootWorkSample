@@ -6,28 +6,38 @@
    ```
    node index.js < input.txt
    ```
+   The return value is written to output.txt
 3. Run this command in the terminal to run the tests
    ```
    npm test
    ```
 ### Files and Folders
 * **index.js** is where the functions are invoked
-* **helpers.js** is where the functions are defined and exported from
+* **indexFunctionDefs.js** is where the functions are defined and exported from
 * **test** is the folder which contains the test file **test.js**
 
 ### My Approach To Solving This Problem:
 
 #### Problem Ideation
-I broke this problem down into functions, each of which represented a specific, concrete task that would modify the input data and bring me one step
-closer to returning the desired output. In other words, each of the main steps in the problem as I understood it was represented by a function. In a general sense, I needed to split the input into Drivers and Trips, then modify each in a way that they could 
-be combined at the end. As far as drivers, I needed to make sure each one got stored. As far as trips, I needed to make sure that I had the data on how many miles were traveled and how long it took. Because of the fact that Drivers can have no trips or many trips, it makes sense to aggregate these values near the end and then combine Drivers and Trips. This way, I could easily compute the average speed for each driver as well as avert the edge case of a driver not showing up because they have no stored Trips.
+I broke this problem down into functions, each of which represented a specific, concrete task that would modify the input 
+data and bring me one
+step closer to returning the desired output. In other words, each of the main steps in the problem as I understood it was represented by a
+function. In a general sense, I needed to split the input into Drivers and Trips, then modify each in a way that they could
+be combined at the end. As far as drivers, I needed to make sure each one got stored. As far as trips, I needed to make sure that I had the data on how many miles were traveled and how long it took, as well as filter out the trips with an average speed of less than 5 mph or greater than 100 mph.
+* new paragraph
+After converting the input text file to a string, I chose to split it into two arrays, one containing Driver commands and one containing Trip commands. I then created an object out of the Driver commands array which contained keys of driver's names. Storing this data in an object was my first choice because during the aggregation phase, adding trip data for each driver would be conveniently accomplished with the constant-time lookup of Javascript objects. At each key in the object i stored an empty object. This empty object is where all the aggregated data for each driver's trips went during the aggregation phase.  Even though it was possible to accomplish this step while splitting the arrays, this approach had the advantage of deduplicating the drivers, in the case that the same driver had been entered multiple times in the input file.
+* new P
+The array of Trip commands went through two phases after its creation. First, I parsed each string in the array into an object which stored the essential data for each trip. The object contained driver name, distance traveled and time spent traveling in hours. Then I pruned the array of trip objects to exclude the ones that had an average speed of less than 5 mph or greater than 100 mph. Using an array here was the logical choice, as the Javascript native array methods make it super convenient to work with them.
+* new P
+Then, I aggregated the total trip data for each driver. I simply iterated over each object in the Trips array and added its distance and time(hours) to the object under the key matching the driver name in the driver object.
+* new P
+The final step was turning this data into a string and writing it back into a text file. 
+
 
 #### Program Design
-The program is broken down into 7 main functions which are described below
-under 'Description of Program Flow':
+The program is broken down into 6 functions
 ```
-getDrivers
-getTrips
+splitDriversAndTrips
 storeDrivers
 tripParser
 pruneTrips
@@ -35,32 +45,5 @@ tripAggregator
 createResult
 ```
 
-#### Description of Program Flow
-1. The data comes in as a text file, which is then converted to a string with 
-    ```
-    fs.readFileSync()
-    ```
-    I split the string into an array, which gives me an array of strings.
-    
-2. getDrivers, getTrips
-    Then I create two new arrays, one which contains only 'Driver' strings and one which contains 'Trip' strings. These two steps are represented by the 
-    ```
-    getDrivers
-    ```
-    and 
-    ```
-    getTrips
-    ``` 
-    functions respectively. I chose arrays because they have great native
-    methods such as map, filter and reduce which make it super easy to iterate over and process data.
-3. storeDrivers
-    Then, I create an object called 'driverObj' from the driver array. This stores every 
-    driver in the input file as a key and an empty object as the value. The empty object 
-    will store the values of time and distance after we aggregate them for each driver and 
-    trip. It makes sense to use an object here, because it is easy to look up and add to the data when it is being stored under a name rather than under an index.
-4. tripParser
-5. pruneTrips
-6. tripAggregator
-7. createResult
-
 #### Approach to Testing
+I wrote unit tests for each function. These tests ensure that the functions return the expected values and data types when fed an input. 
